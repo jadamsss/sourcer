@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "devDependencies": {
+    "@testing-library/cypress": "10.0.1",
+    "@types/jest": "29.5.12",
+    "cypress": "13.9.0",
+    "lodash": "4.17.21",
+    "typescript": "5.4.5"
+  }
+}
