@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import datetime
+import sys
 
 import scrapy
 
@@ -7,13 +8,20 @@ import scrapy
 
 class BrandsSpider(scrapy.Spider):
     name = "brand_products"
-    brand = "Milwaukee"
     date = datetime.now().strftime("%Y-%m-%d")
+    brands = ['Milwaukee']
+    
+    def __init__(self):
+        self.brand = self.brands[0]
+
+        # if self.brand not in self.brands:
+        #     raise ValueError(f"Brand '{self.brand}' is not supported")
 
     def start_requests(self):
+        brand = sys.argv[-1]
         page_size = 30
         start_index = 0
-        total_products = 90
+        total_products = 2070
 
         urls = []
 
@@ -26,8 +34,7 @@ class BrandsSpider(scrapy.Spider):
 
     def parse(self, response):
         page_number = int(response.url.split('?')[1].split('&')[0].split('=')[1]) // 30
-        brand = response.url.split('?')[0].split('/')[-1]
 
-        output_file = Path(f"output/{self.date}/{brand}/{page_number}.html")
+        output_file = Path(f"output/AceHardware/{self.date}/{self.brand}/{page_number}.html")
         output_file.parent.mkdir(exist_ok=True, parents=True)
         output_file.write_bytes(response.body)
